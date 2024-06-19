@@ -1,113 +1,141 @@
-import Image from "next/image";
-
+"use client"
+import Head from 'next/head'
+import Header from '@/components/Header/Header'
+import Footer from '@/components/Footer/Footer'
+import Image from 'next/image';
+import Link from 'next/link'
+import {
+  useDynamicContext
+  
+} from "@dynamic-labs/sdk-react-core";
+import { WalletAccount ,RpcProvider, Contract, json,CallData,shortString,BigNumberish,cairo } from 'starknet'; // v6.10.0 min
+import { connect } from 'get-starknet'; // v4.0.0 min
+import {identityAddress,identityABI} from"@/starknet/contracts"
 export default function Home() {
+
+const {primaryWallet,rpcProviders} = useDynamicContext()
+
+const identity = async()=>{
+
+  const selectedWalletSWO = await connect({ modalMode: 'neverAsk', modalTheme: 'light' });
+
+  
+   const myWalletAccount = new WalletAccount({}, selectedWalletSWO);
+
+  console.log(myWalletAccount)
+  const myTestContract = new Contract(identityABI, identityAddress, myWalletAccount);
+  console.log(myTestContract)
+
+  const isAbiCairo1: boolean = cairo.isCairo1Abi(identityABI);
+  console.log(isAbiCairo1)
+
+
+  
+  try
+  {const owner:BigNumberish = await myTestContract.get_owner({ parseResponse: false });
+   // const tx = await myTestContract.add_issuer("0x07bD211AA2444c06f50E2Ea013eA66D4d69B840Cad6055465CABF80A5d1A76C6")
+  //const tx = await myTestContract.add_claim(1,"kyc",0)
+  const valid = await myTestContract.isValidClaim("3500352511002723790169572099007733033269827260935240930551249030351569974982",1)
+  const name  = await myTestContract.get_contract_name({ parseResponse: false })
+  const title:string = shortString.decodeShortString(name[0])
+  console.log(title)
+  /*const myCallData = new CallData(identityABI);
+  const encodedArray = [owner]; 
+const res = myCallData.decodeParameters("core::starknet::contract_address::ContractAddress", encodedArray);
+console.log(res)
+*/
+ 
+
+  console.log(name)
+  console.log(valid)
+  
+  console.log(owner.valueOf());
+  }catch(error)
+  {console.log(error)}
+
+
+
+}
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">src/app/page.tsx</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:size-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+    <>
+      <Head>
+      <meta charSet="UTF-8" />
+    <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://fonts.googleapis.com/css?family=Fira+Sans&display=swap" rel="stylesheet"/>   
+     <title>StarkNet OnChainID - Decentralized IDs</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      <main className="bg-black"
+       
+     >
+         <Header/>
+
+     <section
+      id="home"
+      className= "  opacity-90 relative  overflow-hidden bg-cover bg-top bg-no-repeat pt-[150px] pb-24"
           >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+          
+      <div
+        className="grade absolute left-0 top-0 -z-10 h-full w-full"
+       
+        
+      ></div>      
+      <div
+        className="absolute left-0 top-0 -z-10 h-full w-full"
+      
+      ></div>
+  <video className="-z-10 absolute top-0 left-0 w-full h-full object-cover bg-top bg-no-repeat " autoPlay loop muted>
+    <source src="/videos/id.mp4" type="video/mp4" />
+    Your browser does not support the video tag.
+  </video>
+      <div className="container ">
+        <div className="-mx-4 flex flex-wrap items-center">
+          <div className="w-full px-4 lg:w-1/2">
+            <div className="mb-12 max-w-[570px] lg:mb-0">
+              <h1
+                className="mb-4 text-[40px] font-bold leading-tight text-white md:text-[50px] lg:text-[40px] xl:text-[46px] 2xl:text-[50px] sm:text-[46px]"
+              >
+               
+               StarkNet OnChainID - Decentralized IDs 
+                             </h1>
+              <p
+                className="opacity-80 border border-grey rounded-md  p-4 mb-8 text-lg  bg-bg-color font-medium leading-relaxed text-white md:pr-14 "
+              >
+
+Starknet OnChainID is a decentralized identity (DID) solution built on the Starknet Layer 2 network, leveraging ZK-Rollup technology for scalable and secure blockchain interactions. This solution provides users with a decentralized and self-sovereign identity, enabling seamless authentication and verification across various dApps and services within the Starknet ecosystem.
+
+With Starknet OnChainID, users retain full control over their identity data without relying on central authorities, as identities are stored on-chain, ensuring security and immutability.
+
+</p>
+         <div className="flex flex-wrap items-center">
+                <button
+                  type='button'
+                  onClick={()=>identity()}
+                  className="mr-5 mb-5 inline-flex items-center justify-center rounded-md border-2 border-gold bg-gold py-3 px-7 text-base font-semibold text-white transition-all hover:bg-opacity-90"
+                >
+                  Identity
+                </button>
+                <Link
+                  href="/identity"
+                  className="mb-5 inline-flex items-center justify-center rounded-md border-2 border-white py-3 px-7 text-base font-semibold text-white transition-all hover:border-blue-light hover:bg-blue-light"
+                >
+                  About
+                </Link>
+                
+              </div>
+            </div>
+          </div>
+
+        
         </div>
       </div>
 
-      <div className="relative z-[-1] flex place-items-center before:absolute before:h-[300px] before:w-full before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 sm:before:w-[480px] sm:after:w-[240px] before:lg:h-[360px]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className="mb-32 grid text-center lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Docs{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Learn{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Templates{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Explore starter templates for Next.js.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Deploy{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-balance text-sm opacity-50">
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  );
+      
+    </section>
+    <Footer />
+     </main>
+     </>
+  )
 }
