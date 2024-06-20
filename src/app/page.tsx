@@ -33,24 +33,33 @@ const identity = async()=>{
   
   try
   {const owner:BigNumberish = await myTestContract.get_owner({ parseResponse: false });
-   // const tx = await myTestContract.add_issuer("0x07bD211AA2444c06f50E2Ea013eA66D4d69B840Cad6055465CABF80A5d1A76C6")
-  //const tx = await myTestContract.add_claim(1,"kyc",0)
-  const valid = await myTestContract.isValidClaim("3500352511002723790169572099007733033269827260935240930551249030351569974982",1)
+    //const tx1 = await myTestContract.add_issuer("0x07bD211AA2444c06f50E2Ea013eA66D4d69B840Cad6055465CABF80A5d1A76C6")
+    //const txR1 = await myWalletAccount.waitForTransaction(tx1.transaction_hash); 
+
+    //const tx = await myTestContract.add_claim(1,"kyc",0)
+  const valid = await myTestContract.isValidClaim("3500352511002723790169572099007733033269827260935240930551249030351569974982",3)
   const name  = await myTestContract.get_contract_name({ parseResponse: false })
   const title:string = shortString.decodeShortString(name[0])
   console.log(title)
-  /*const myCallData = new CallData(identityABI);
-  const encodedArray = [owner]; 
-const res = myCallData.decodeParameters("core::starknet::contract_address::ContractAddress", encodedArray);
-console.log(res)
-*/
  
 
   console.log(name)
   console.log(valid)
   
   console.log(owner.valueOf());
-  }catch(error)
+  const claim = await myTestContract.get_claim("0x604400d3e1cdf132c395df46c206dcafbfef5ea8cc750a7f281a49e216a1508",{ parseResponse: true });
+  console.log(claim)
+  console.log(claim.claim_id.toString(16))
+  console.log(claim.issuer.toString(16))
+
+
+ /*const tx = await myTestContract.add_claim(3,"is > than 25",0)
+ console.log(tx)
+ const txR = await myWalletAccount.waitForTransaction(tx.transaction_hash); 
+ console.log(txR.statusReceipt, txR.value);
+ console.log(txR.value.events[0])
+console.log(txR.isSuccess(), txR.isRejected(), txR.isReverted(), txR.isError());*/
+}catch(error)
   {console.log(error)}
 
 

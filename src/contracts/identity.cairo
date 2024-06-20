@@ -4,10 +4,11 @@ use starknet::ContractAddress;
 trait IdentityTrait<T> {
     fn get_owner(self: @T) -> ContractAddress;
     //fn constructor(ref self: T,init_owner: ContractAddress);
-    fn add_claim(ref self: T,claim_topic:u256, claim_content: ByteArray,expires:u64)-> felt252;
+    fn add_claim(ref self: T,claim_topic:u256, claim_content: ByteArray,expires:u64);
     fn add_issuer(ref self: T,issuer_address: ContractAddress);
     fn remove_issuer(ref self: T,issuer_address: ContractAddress);
     fn get_claim(self: @T,claim_id: felt252) ->Identity::Claim ;
+    fn get_claimByIssuerAndTopic(self: @T,issuer:ContractAddress,claim_topic:u256) ->Identity::Claim ;
     fn remove_claim(ref self: T,claim_id: felt252);
     fn isValidClaim(self:@T,issuer:ContractAddress,claim_topic:u256) ->bool;
     
@@ -23,6 +24,8 @@ mod Identity {
     use core::poseidon::PoseidonTrait;
     use starknet::get_block_info;	
     use starknet::get_block_timestamp;
+    use starknet::get_contract_address;	
+
     use core::hash::{HashStateTrait, HashStateExTrait};
 
     // Define a Claim struct
@@ -60,6 +63,25 @@ struct Claim {
 
     }
 
+
+    /// @dev Event that gets emitted when a claim is added
+    #[event]
+    #[derive(Drop, starknet::Event)]
+    enum Event {
+        ClaimAdded: ClaimAdded,
+        
+    }
+
+    /// @dev Represents a claim that was added
+    #[derive(Drop, starknet::Event)]
+    struct ClaimAdded {
+        claim_id:felt252,
+        identity:ContractAddress,
+        issuer: ContractAddress,
+        date_added:u64,
+        expires:u64,
+    }
+
      
          #[constructor]
         fn constructor(ref self: ContractState, init_owner: ContractAddress) {
@@ -76,14 +98,14 @@ struct Claim {
 
            }
 
-           fn add_claim(ref self: ContractState,claim_topic:u256, claim_content: ByteArray,expires:u64)-> felt252 {
+           fn add_claim(ref self: ContractState,claim_topic:u256, claim_content: ByteArray,expires:u64) {
               let caller = get_caller_address();
               self.is_issuer_authorized(caller);
               
               let struct_to_hash = StructForHash { issuer:caller,topic:claim_topic };
               let hash = PoseidonTrait::new().update_with(struct_to_hash).finalize();
               self.claims.write(hash,Claim{claim_id:hash,issuer:caller,topic:claim_topic,content:claim_content,active:true,expires:expires});
-              hash     
+              self.emit(ClaimAdded{claim_id:hash,identity:get_contract_address(),issuer:caller,date_added:get_block_timestamp(),expires:expires});
             }
 
         fn remove_claim(ref self:ContractState,claim_id:felt252) {
@@ -108,6 +130,15 @@ struct Claim {
           fn get_claim(self: @ContractState,claim_id: felt252) -> Claim{
             return self.claims.read(claim_id);
           }
+
+
+            fn get_claimByIssuerAndTopic(self: @ContractState,issuer:ContractAddress,claim_topic:u256) ->Claim {
+              let struct_to_hash = StructForHash { issuer:issuer,topic:claim_topic };
+              let hash = PoseidonTrait::new().update_with(struct_to_hash).finalize();
+              return self.claims.read(hash);
+                
+            }
+  
    
         fn isValidClaim(self:@ContractState,issuer:ContractAddress,claim_topic:u256) ->bool{
             let struct_to_hash = StructForHash { issuer:issuer,topic:claim_topic };
