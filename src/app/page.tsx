@@ -16,7 +16,7 @@ export default function Home() {
 const {primaryWallet,rpcProviders} = useDynamicContext()
 
 const identity = async()=>{
-
+  return
   const selectedWalletSWO = await connect({ modalMode: 'neverAsk', modalTheme: 'light' });
 
   

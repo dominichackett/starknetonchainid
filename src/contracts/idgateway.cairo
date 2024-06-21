@@ -79,7 +79,7 @@ mod IdentityGateway {
     calldata.span(),
      false).unwrap();
 
-
+       self.ids.write(caller,Identity{owner:caller,identity:identity});
        self.emit(IdentityCreated{identity:identity,owner:caller,date_created:get_block_timestamp()});   
    }   
 

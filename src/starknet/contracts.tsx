@@ -1,5 +1,5 @@
 export const identityAddress ="0x00dbb6cbc8cb47ae20e288308dca98352870392408530345281be7a034d0478c"
-export const identityABI =   [
+export const identityABI =  [
   {
     "type": "impl",
     "name": "IdentityImpl",
@@ -271,6 +271,99 @@ export const identityABI =   [
       {
         "name": "ClaimAdded",
         "type": "myidentity::myidentity::Identity::ClaimAdded",
+        "kind": "nested"
+      }
+    ]
+  }
+]
+
+export const identityGatewayAddress = "0x04d61FDaa9b166C5D95e3B39a8F69717c8Cd93Ae4B43Ccf435225b53A224f14d"
+export const identityGatewayABI =[
+  {
+    "type": "impl",
+    "name": "IdentityGatewayImpl",
+    "interface_name": "idgateway::idgateway::IdentityGatewayTrait"
+  },
+  {
+    "type": "interface",
+    "name": "idgateway::idgateway::IdentityGatewayTrait",
+    "items": [
+      {
+        "type": "function",
+        "name": "get_owner",
+        "inputs": [],
+        "outputs": [
+          {
+            "type": "core::starknet::contract_address::ContractAddress"
+          }
+        ],
+        "state_mutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "get_id",
+        "inputs": [
+          {
+            "name": "user",
+            "type": "core::starknet::contract_address::ContractAddress"
+          }
+        ],
+        "outputs": [
+          {
+            "type": "core::starknet::contract_address::ContractAddress"
+          }
+        ],
+        "state_mutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "createId",
+        "inputs": [],
+        "outputs": [],
+        "state_mutability": "external"
+      }
+    ]
+  },
+  {
+    "type": "constructor",
+    "name": "constructor",
+    "inputs": [
+      {
+        "name": "class_hash",
+        "type": "core::starknet::class_hash::ClassHash"
+      }
+    ]
+  },
+  {
+    "type": "event",
+    "name": "idgateway::idgateway::IdentityGateway::IdentityCreated",
+    "kind": "struct",
+    "members": [
+      {
+        "name": "identity",
+        "type": "core::starknet::contract_address::ContractAddress",
+        "kind": "data"
+      },
+      {
+        "name": "owner",
+        "type": "core::starknet::contract_address::ContractAddress",
+        "kind": "data"
+      },
+      {
+        "name": "date_created",
+        "type": "core::integer::u64",
+        "kind": "data"
+      }
+    ]
+  },
+  {
+    "type": "event",
+    "name": "idgateway::idgateway::IdentityGateway::Event",
+    "kind": "enum",
+    "variants": [
+      {
+        "name": "IdentityCreated",
+        "type": "idgateway::idgateway::IdentityGateway::IdentityCreated",
         "kind": "nested"
       }
     ]

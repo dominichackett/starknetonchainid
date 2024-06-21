@@ -86,6 +86,8 @@ struct Claim {
          #[constructor]
         fn constructor(ref self: ContractState, init_owner: ContractAddress) {
            self.owner.write(init_owner);
+          self.authorized_issuers.write(init_owner,Issuer{address:init_owner,active:true});
+
     }
 
     #[abi(embed_v0)]

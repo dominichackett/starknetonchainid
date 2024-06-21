@@ -101,7 +101,19 @@ import Link from 'next/link';
                             >
                               Identity
                             </Link>
-                            
+                            <Link
+                              href="/issuers"
+                              className="block rounded py-[10px] px-4 text-sm font-medium text-[#bababa] hover:text-white"
+                            >
+                              Trusted Claims Issuers
+                            </Link>
+
+                            <Link
+                              href="/claims"
+                              className="block rounded py-[10px] px-4 text-sm font-medium text-[#bababa] hover:text-white"
+                            >
+                              Issue Claims
+                            </Link>
                            
                           </div>
                           

@@ -11,7 +11,7 @@ export default function Footer(){
             <div className="-mx-4 flex flex-wrap">
               <div className="w-full px-4 sm:w-6/12 lg:w-3/12 xl:w-4/12">
                 <div className="mb-16">
-                  <div className="max-w-[300px]">
+                  <div className="max-w-[320px]">
                   <div className="flex items-center mb-6">
                         <img src="/images/stark.png" className='rounded-full'></img>
                     </div>
