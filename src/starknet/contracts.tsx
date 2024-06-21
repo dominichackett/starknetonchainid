@@ -369,3 +369,76 @@ export const identityGatewayABI =[
     ]
   }
 ]
+
+
+export const testContractAddress ="0x041cB10708bA15bF36e6e4a0dB7000a711fDb78dD7fB8aC11292F757f7EeE5f8"
+export const testContractABI=  [
+  {
+    "type": "impl",
+    "name": "IdentityImpl",
+    "interface_name": "testcontract::testcontract::IdentityTestTrait"
+  },
+  {
+    "type": "struct",
+    "name": "core::byte_array::ByteArray",
+    "members": [
+      {
+        "name": "data",
+        "type": "core::array::Array::<core::bytes_31::bytes31>"
+      },
+      {
+        "name": "pending_word",
+        "type": "core::felt252"
+      },
+      {
+        "name": "pending_word_len",
+        "type": "core::integer::u32"
+      }
+    ]
+  },
+  {
+    "type": "interface",
+    "name": "testcontract::testcontract::IdentityTestTrait",
+    "items": [
+      {
+        "type": "function",
+        "name": "setMessage",
+        "inputs": [
+          {
+            "name": "message",
+            "type": "core::byte_array::ByteArray"
+          }
+        ],
+        "outputs": [],
+        "state_mutability": "external"
+      },
+      {
+        "type": "function",
+        "name": "getMessage",
+        "inputs": [],
+        "outputs": [
+          {
+            "type": "(core::byte_array::ByteArray, core::starknet::contract_address::ContractAddress)"
+          }
+        ],
+        "state_mutability": "external"
+      }
+    ]
+  },
+  {
+    "type": "constructor",
+    "name": "constructor",
+    "inputs": [
+      {
+        "name": "identityGateway",
+        "type": "core::starknet::contract_address::ContractAddress"
+      }
+    ]
+  },
+  {
+    "type": "event",
+    "name": "testcontract::testcontract::IdentityTest::Event",
+    "kind": "enum",
+    "variants": []
+  }
+]

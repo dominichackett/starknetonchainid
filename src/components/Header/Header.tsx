@@ -114,7 +114,12 @@ import Link from 'next/link';
                             >
                               Issue Claims
                             </Link>
-                           
+                            <Link
+                              href="/testclaims"
+                              className="block rounded py-[10px] px-4 text-sm font-medium text-[#bababa] hover:text-white"
+                            >
+                              Test Claims
+                            </Link>
                           </div>
                           
                         </li>}
