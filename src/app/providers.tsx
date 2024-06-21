@@ -13,7 +13,6 @@ import {
   import { http } from 'viem';
   import { mainnet } from 'viem/chains';
   
-  import { EthereumWalletConnectors } from "@dynamic-labs/ethereum";
   import { StarknetWalletConnectors } from "@dynamic-labs/starknet";
   
   const config = createConfig({
@@ -35,7 +34,6 @@ export function Providers({ children }: { children: React.ReactNode }) {
         environmentId: 'e7115d81-fd19-49f6-aba3-febe81d5bbb0',
         walletConnectorExtensions: [EthersExtension],
         walletConnectors: [
-          EthereumWalletConnectors,
           StarknetWalletConnectors
         ],
       }}
