@@ -113,7 +113,7 @@ useEffect(()=>{
      
           setDialogType(2) //error
           setNotificationTitle("Send Message")
-          setNotificationDescription("Error sending claim.")
+          setNotificationDescription("Error sending message.")
           setShow(true)
    
     setIsSaving(false)
@@ -139,8 +139,8 @@ useEffect(()=>{
      try{
            const message = await testContract.getMessage({ parseResponse: true })
            console.log(message)
-           setMessage(message.lastMessage)
-           setLastCaller(message.lastCaller)
+           setMessage(message[0])
+           setLastCaller(message[1].toString(16))
            setIsSaving(false)
             setDialogType(1) //Success
             setNotificationTitle("Get Message")

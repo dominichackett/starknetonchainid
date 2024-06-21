@@ -371,7 +371,7 @@ export const identityGatewayABI =[
 ]
 
 
-export const testContractAddress ="0x041cB10708bA15bF36e6e4a0dB7000a711fDb78dD7fB8aC11292F757f7EeE5f8"
+export const testContractAddress ="0x04a6fa003363535f6efD1bb776D6a0C6Eb5E0fda98F462d6eeEac04B5944D5F1"
 export const testContractABI=  [
   {
     "type": "impl",
@@ -421,7 +421,7 @@ export const testContractABI=  [
             "type": "(core::byte_array::ByteArray, core::starknet::contract_address::ContractAddress)"
           }
         ],
-        "state_mutability": "external"
+        "state_mutability": "view"
       }
     ]
   },
