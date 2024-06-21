@@ -3,7 +3,7 @@ use starknet::ContractAddress;
 trait IdentityTestTrait<T> {
     
     fn setMessage(ref self: T,message:ByteArray);
-    fn getMessage(self:@T)->(ByteArray,ContractAddress);
+    fn getMessage(ref self:T)->(ByteArray,ContractAddress);
  }   
 #[starknet::interface]
 trait IdentityGateway<TContractState> {
@@ -53,7 +53,7 @@ mod IdentityTest {
             }
 
 
-            fn getMessage(self:@ContractState) -> (ByteArray,ContractAddress) {
+            fn getMessage(ref self:ContractState) -> (ByteArray,ContractAddress) {
                  let id = self.get_id();
                 assert(self.isValidClaim(id),'Invalid Claim'); 
                (self.lastMessage.read(),self.lastCaller.read())
